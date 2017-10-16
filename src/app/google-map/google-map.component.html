@@ -1,0 +1,13 @@
+<div *ngIf="firebaseService.lat && firebaseService.lng">
+  <agm-map [latitude]="firebaseService.lat" [longitude]="firebaseService.lng">
+    <agm-marker [latitude]="firebaseService.lat" [longitude]="firebaseService.lng">
+      <agm-info-window>
+        <h3>Howdy</h3>
+      </agm-info-window>
+    </agm-marker>
+  </agm-map>
+  <button 
+  (click)="onLocation()"
+  >{{isChecking ? 'Stop' : 'Start'}}
+  </button>
+</div>
