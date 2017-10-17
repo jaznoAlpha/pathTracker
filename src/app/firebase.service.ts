@@ -3,17 +3,21 @@ import { Injectable } from '@angular/core'
 
 //Firebase
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFirestore} from 'angularfire2/firestore'
+import {Observable} from 'rxjs/Observable'
 
 @Injectable()
 export class FirebaseService {
-    positions: AngularFireList<{}> ; //: Observable<any[]>;
+//    positions: AngularFireList<{}> ; //: Observable<any[]>;
+    positions:  Observable<any[]>;
     lat: number;
     lng: number;
 
-    constructor(private db: AngularFireDatabase) {
-        
-        this.positions = db.list('/positions');
-        console.log('jazno', this.positions);
+   constructor(private db: AngularFireDatabase) {
+//       constructor(private db: AngularFirestore) {
+            
+//        this.positions = db.collection('positions').valueChanges();
+//        console.log('jazno', this.positions);
         // db.list('/positions').valueChanges()
         //    .subscribe((positions) => {
         //      this.positions = positions;
@@ -22,8 +26,11 @@ export class FirebaseService {
        }
 
     addPosition(newPos) {
-        this.positions = this.db.list('/positions');
-        this.positions.push(newPos);
+        //this.positions = this.db.list('/positions/');
+        console.log("Positions: ", newPos);
+        const itemRef = this.db.list('positions');
+        //itemRef.push({pos: "pop"});
+        //this.positions.push(newPos);
         this.lat = newPos.coords.latitude;
         this.lng = newPos.coords.longitude;
     }
