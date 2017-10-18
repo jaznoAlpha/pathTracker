@@ -11,6 +11,8 @@ import { FirebaseService } from '../firebase.service';
 export class GoogleMapComponent implements OnInit {
   isChecking: boolean = false;
   clock;
+  lat: number = 13.72;
+  lng: number=100.52;
 
   constructor(public firebaseService: FirebaseService) {
     
@@ -20,19 +22,33 @@ export class GoogleMapComponent implements OnInit {
     this.getUserLocation();
   }
 
+  cv(position: Position){
+    let a = {};
+    a["latitude"] = position.coords.latitude;
+    a["longitude"] = position.coords.longitude;
+    a["accuracy"] = position.coords.accuracy;
+    a["timestamp"] = position.timestamp;
+    return a;
+  }
+
   private getUserLocation() {
     //Locate the user
+    //this.lng += 0.1;
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-        this.firebaseService.addPosition(position);
-        console.log(position);        
+        let myPos = this.cv(position); 
+        this.lat = myPos["latitude"];
+        this.lng = myPos["longitude"];
+        this.firebaseService.addPosition(myPos);
+//        console.log("pp",position, JSON.stringify(position));   
+//        console.log('qq');     
       });
     }
   }
 
   onLocation(){
     if(!this.isChecking) {
-    this.clock = setInterval(() => {this.getUserLocation(); console.log(this.firebaseService.lat);}, 1000);
+    this.clock = setInterval(() => {this.getUserLocation(); console.log(this.firebaseService.lat);}, 250);
     } else {
       clearInterval(this.clock);
     }

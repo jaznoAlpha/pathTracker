@@ -27,11 +27,11 @@ export class FirebaseService {
 
     addPosition(newPos) {
         //this.positions = this.db.list('/positions/');
-        console.log("Positions: ", newPos);
+        //console.log("Positions: ", JSON.stringify(newPos));
         const itemRef = this.db.list('positions');
-        //itemRef.push({pos: "pop"});
+        itemRef.push(newPos);
         //this.positions.push(newPos);
-        this.lat = newPos.coords.latitude;
-        this.lng = newPos.coords.longitude;
+        this.lat = newPos.latitude;
+        this.lng = newPos.longitude;
     }
 }
